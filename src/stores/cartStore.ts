@@ -45,5 +45,9 @@ export const useCartStore = create<CartState>((set, get) => ({
 
   totalQuantity: () => Object.values(get().lines).reduce((s, l) => s + l.quantity, 0),
   totalAmount: () => Object.values(get().lines).reduce((s, l) => s + l.product.price * l.quantity, 0),
+  // 注意: 呼ぶたびに新しい配列を返すため、Reactコンポーネント内で
+  // `useCartStore((s) => s.linesArray())` のように直接セレクターとして
+  // 使うと無限レンダリングの原因になる。使う側は `lines` を購読して
+  // useMemo で配列化すること（例: CheckoutSheet.tsx）。
   linesArray: () => Object.values(get().lines),
 }));

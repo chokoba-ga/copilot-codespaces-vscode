@@ -21,7 +21,8 @@ export function CheckoutSheet({
   eventId: string;
   dayId: string;
 }) {
-  const lines = useCartStore((s) => s.linesArray());
+  const linesMap = useCartStore((s) => s.lines);
+  const lines = useMemo(() => Object.values(linesMap), [linesMap]);
   const setQuantity = useCartStore((s) => s.setQuantity);
   const remove = useCartStore((s) => s.remove);
   const clear = useCartStore((s) => s.clear);
